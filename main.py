@@ -7,47 +7,52 @@
 # ----------------------------------------------------------------------------
 # %%
 
-def get_user_data():
-    """"get user data and save for further processing
-        use: https://randomuser.me/api/?inc=gender,name,location,nat
-    """
-    pass
+class ISS:
+    def __init__(self):
+        self.user_data = self.get_user_data()
+
+    def get_user_data(self):
+        """"get user data and save for further processing
+            use: https://randomuser.me/api/?inc=gender,name,location,nat
+        """
+        return 1
+        pass
 
 
-def display_message():
-    """define message template for requested data"""
-    pass
+    def display_message(self):
+        """define message template for requested data"""
+        pass
 
 
-def get_user_name():
-    pass
+    def get_user_name(self):
+        pass
 
 
-def get_user_coordinates():
-    pass
+    def get_user_coordinates(self):
+        pass
 
 
-def get_user_city():
-    pass
+    def get_user_city(self):
+        pass
 
 
-def get_iss_coordinates():
-    """fetch position via: http://api.open-notify.org/iss-now.json"""
-    pass
+    def get_iss_coordinates(self):
+        """fetch position via: http://api.open-notify.org/iss-now.json"""
+        pass
 
 
-def get_iss_pass_time():
-    """get info via: http://api.open-notify.org/iss-pass.json?lat=45.0&lon=-122.3"""
-    pass
+    def get_iss_pass_time(self):
+        """get info via: http://api.open-notify.org/iss-pass.json?lat=45.0&lon=-122.3"""
+        pass
 
 
-def get_number_of_crew():
-    """get info via: http://api.open-notify.org/astros.json"""
-    pass
+    def get_number_of_crew(self):
+        """get info via: http://api.open-notify.org/astros.json"""
+        pass
 
 
-def calculate_distance():
-    pass
+    def calculate_distance(self):
+        pass
 
 
 
