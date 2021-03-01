@@ -18,46 +18,55 @@ class ISS:
         return 1
         pass
 
-
     def display_message(self):
         """define message template for requested data"""
         pass
 
-
     def get_user_name(self):
         pass
-
 
     def get_user_coordinates(self):
         pass
 
-
     def get_user_city(self):
         pass
-
 
     def get_iss_coordinates(self):
         """fetch position via: http://api.open-notify.org/iss-now.json"""
         pass
 
-
     def get_iss_pass_time(self):
         """get info via: http://api.open-notify.org/iss-pass.json?lat=45.0&lon=-122.3"""
         pass
-
 
     def get_number_of_crew(self):
         """get info via: http://api.open-notify.org/astros.json"""
         pass
 
-
     def calculate_distance(self):
         pass
 
 
+# %% trial for tetting iss coordinates
+import urllib.request
+import json
 
-# %%
+iss = "http://api.open-notify.org/iss-now.json"
 
+
+def get_response(url):
+    openurl = urllib.request.urlopen(url)
+    if openurl.getcode() == 200:
+        data = openurl.read()
+        json_data = json.loads(data)
+        lat = json_data['iss_position']['latitude']
+        long = json_data['iss_position']['longitude']
+        return lat, long
+    else:
+        print("Error receiving data:", openurl.getcode())
+
+
+print(get_response(iss))
 # %%
 
 # %%
