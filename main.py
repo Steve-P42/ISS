@@ -52,7 +52,8 @@ import urllib.request
 import json
 
 iss = "http://api.open-notify.org/iss-now.json"
-
+#todo put this function into the class as method
+#todo use it in the other methods that need to fetch data
 
 def get_response(url):
     openurl = urllib.request.urlopen(url)
