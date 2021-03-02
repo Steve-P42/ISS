@@ -14,17 +14,12 @@ class ISS:
     def __init__(self):
         self.user_data = self.get_user_data()
 
-        # urls:
-        self.iss = "http://api.open-notify.org/iss-now.json"
-
     def make_requests(self, source):
         openurl = urllib.request.urlopen(source)
         if openurl.getcode() == 200:
             data = openurl.read()
             json_data = json.loads(data)
-            lat = json_data['iss_position']['latitude']
-            long = json_data['iss_position']['longitude']
-            return lat, long
+            return json_data
         else:
             print("Error receiving data:", openurl.getcode())
 
@@ -50,7 +45,10 @@ class ISS:
 
     def get_iss_coordinates(self):
         """fetch position via: http://api.open-notify.org/iss-now.json"""
-        pass
+        json_data = self.make_requests("http://api.open-notify.org/iss-now.json")
+        lat = json_data['iss_position']['latitude']
+        long = json_data['iss_position']['longitude']
+        return lat, long
 
     def get_iss_pass_time(self):
         """get info via: http://api.open-notify.org/iss-pass.json?lat=45.0&lon=-122.3"""
@@ -64,11 +62,10 @@ class ISS:
         pass
 
 
+new = ISS()
 
 
-i = ISS()
-
-print(i.make_requests(i.iss))
+print(new.get_iss_coordinates())
 
 
 
