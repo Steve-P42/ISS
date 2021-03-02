@@ -6,10 +6,27 @@
 # Status:           in development
 # ----------------------------------------------------------------------------
 # %%
+import urllib.request
+import json
+
 
 class ISS:
     def __init__(self):
         self.user_data = self.get_user_data()
+
+        # urls:
+        self.iss = "http://api.open-notify.org/iss-now.json"
+
+    def make_requests(self, source):
+        openurl = urllib.request.urlopen(source)
+        if openurl.getcode() == 200:
+            data = openurl.read()
+            json_data = json.loads(data)
+            lat = json_data['iss_position']['latitude']
+            long = json_data['iss_position']['longitude']
+            return lat, long
+        else:
+            print("Error receiving data:", openurl.getcode())
 
     def get_user_data(self):
         """"get user data and save for further processing
@@ -47,27 +64,14 @@ class ISS:
         pass
 
 
-# %% trial for tetting iss coordinates
-import urllib.request
-import json
-
-iss = "http://api.open-notify.org/iss-now.json"
-#todo put this function into the class as method
-#todo use it in the other methods that need to fetch data
-
-def get_response(url):
-    openurl = urllib.request.urlopen(url)
-    if openurl.getcode() == 200:
-        data = openurl.read()
-        json_data = json.loads(data)
-        lat = json_data['iss_position']['latitude']
-        long = json_data['iss_position']['longitude']
-        return lat, long
-    else:
-        print("Error receiving data:", openurl.getcode())
 
 
-print(get_response(iss))
+i = ISS()
+
+print(i.make_requests(i.iss))
+
+
+
 # %%
 
 # %%
