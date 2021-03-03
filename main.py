@@ -13,7 +13,10 @@ import json
 class ISS:
     def __init__(self):
         self.user_data = self.get_user_data()
+        self.name = self.get_user_name()
+        self.km = self.calculate_distance()
 
+    @staticmethod
     def make_requests(self, source):
         openurl = urllib.request.urlopen(source)
         if openurl.getcode() == 200:
@@ -23,19 +26,18 @@ class ISS:
         else:
             print("Error receiving data:", openurl.getcode())
 
-    def get_user_data(self):
-        """"get user data and save for further processing
-            use: https://randomuser.me/api/?inc=gender,name,location,nat
-        """
-        return 1
-        pass
-
     def display_message(self):
         """define message template for requested data"""
+        message = f"""
+        Welcome, {self.name}. Your distance from the ISS is {km} km.
+        The space station will pass {location} 
+        
+        """
         pass
 
+    @staticmethod  # this method is static because 'self' is not used anywhere
     def get_user_name(self):
-        pass
+        return 'Sir Prise'
 
     def get_user_coordinates(self):
         pass
@@ -59,7 +61,7 @@ class ISS:
         pass
 
     def calculate_distance(self):
-        pass
+        return 1000
 
 
 new = ISS()
