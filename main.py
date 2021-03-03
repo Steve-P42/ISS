@@ -12,11 +12,12 @@ import json
 
 class ISS:
     def __init__(self):
-        self.user_data = self.get_user_data()
-        self.name = self.get_user_name()
-        self.km = self.calculate_distance()
+        self.user_name = self.get_user_name()
+        self.user_city = self.get_user_city()
+        self.user_coordinates = self.get_user_coordinates()
+        self.distance_in_km = self.calculate_distance()
 
-    @staticmethod
+
     def make_requests(self, source):
         openurl = urllib.request.urlopen(source)
         if openurl.getcode() == 200:
@@ -29,25 +30,27 @@ class ISS:
     def display_message(self):
         """define message template for requested data"""
         message = f"""
-        Welcome, {self.name}. Your distance from the ISS is {km} km.
-        The space station will pass {location} 
+        Welcome, {self.user_name}. Your distance from the ISS is {self.distance_in_km} km.
+        The space station will pass {self.user_city} 
         
         """
         pass
 
     @staticmethod  # this method is static because 'self' is not used anywhere
-    def get_user_name(self):
+    def get_user_name():
         return 'Sir Prise'
 
     def get_user_coordinates(self):
-        pass
+        """Lat and Long for Vienna, Austria"""
+        return '48.210033', '16.363449'
 
     def get_user_city(self):
-        pass
+        """User city name"""
+        return 'Vienna, Austria'
 
     def get_iss_coordinates(self):
         """fetch position via: http://api.open-notify.org/iss-now.json"""
-        json_data = self.make_requests("http://api.open-notify.org/iss-now.json")
+        json_data = self.make_requests('http://api.open-notify.org/iss-now.json')
         lat = json_data['iss_position']['latitude']
         long = json_data['iss_position']['longitude']
         return lat, long
