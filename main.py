@@ -8,7 +8,8 @@
 # %%
 import urllib.request
 import json
-
+from datetime import datetime
+import tzlocal  # pip install tzlocal
 
 class ISS:
     def __init__(self):
@@ -63,13 +64,15 @@ class ISS:
 
         json_data = self.make_requests(passtime_request_url)
         risetime_and_duration1 = json_data['response'][0]
-        risetime_and_duration2 = json_data['response'][1]
-        risetime_and_duration3 = json_data['response'][2]
-        return risetime_and_duration1, risetime_and_duration2, risetime_and_duration3
+        #risetime_and_duration2 = json_data['response'][1]
+        #risetime_and_duration3 = json_data['response'][2]
+        return risetime_and_duration1  #, risetime_and_duration2, risetime_and_duration3
 
-    def convert_unix_time(self):
-        pass
+    def convert_unix_time(self, unix_timestamp):
+        local_timezone = tzlocal.get_localzone()  # get pytz timezone
 
+        local_time = datetime.fromtimestamp(unix_timestamp, local_timezone)
+        print(local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
 
     def get_number_of_crew(self):
         """get info via: http://api.open-notify.org/astros.json"""
@@ -82,6 +85,12 @@ class ISS:
 new = ISS()
 
 print(new.get_iss_pass_time())
+
+new.convert_unix_time(1614899040)
+new.convert_unix_time(1614904746)
+new.convert_unix_time(1614910555)
+new.convert_unix_time(1614916384)
+new.convert_unix_time(1614922197)
 
 
 
