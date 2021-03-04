@@ -17,6 +17,7 @@ class ISS:
         self.user_city = self.get_user_city()
         self.user_coordinates = self.get_user_coordinates()
         self.distance_in_km = self.calculate_distance()
+        self.three_passtimes = get_iss_pass_time()
 
 
     def make_requests(self, source):
@@ -64,9 +65,9 @@ class ISS:
 
         json_data = self.make_requests(passtime_request_url)
         risetime_and_duration1 = json_data['response'][0]
-        #risetime_and_duration2 = json_data['response'][1]
-        #risetime_and_duration3 = json_data['response'][2]
-        return risetime_and_duration1  #, risetime_and_duration2, risetime_and_duration3
+        risetime_and_duration2 = json_data['response'][1]
+        risetime_and_duration3 = json_data['response'][2]
+        return risetime_and_duration1, risetime_and_duration2, risetime_and_duration3
 
     def convert_unix_time(self, unix_timestamp):
         local_timezone = tzlocal.get_localzone()  # get pytz timezone
