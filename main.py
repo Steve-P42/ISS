@@ -17,7 +17,7 @@ class ISS:
         self.user_city = self.get_user_city()
         self.user_coordinates = self.get_user_coordinates()
         self.distance_in_km = self.calculate_distance()
-        self.three_passtimes = get_iss_pass_time()
+        self.three_passtimes = self.get_iss_pass_time()
 
 
     def make_requests(self, source):
