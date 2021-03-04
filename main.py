@@ -31,7 +31,8 @@ class ISS:
         """define message template for requested data"""
         message = f"""
         Welcome, {self.user_name}. Your distance from the ISS is {self.distance_in_km} km.
-        The space station will pass {self.user_city} 
+        The next three times the space station will pass {self.user_city}:
+        
         
         """
         pass
@@ -56,8 +57,19 @@ class ISS:
         return lat, long
 
     def get_iss_pass_time(self):
-        """get info via: http://api.open-notify.org/iss-pass.json?lat=45.0&lon=-122.3"""
+        """get info via: http://api.open-notify.org/iss-pass.json?lat=48.210033&lon=16.363449"""
+        template = "http://api.open-notify.org/iss-pass.json?lat={}&lon={}"
+        passtime_request_url = template.format(self.user_coordinates[0], self.user_coordinates[1])
+
+        json_data = self.make_requests(passtime_request_url)
+        risetime_and_duration1 = json_data['response'][0]
+        risetime_and_duration2 = json_data['response'][1]
+        risetime_and_duration3 = json_data['response'][2]
+        return risetime_and_duration1, risetime_and_duration2, risetime_and_duration3
+
+    def convert_unix_time(self):
         pass
+
 
     def get_number_of_crew(self):
         """get info via: http://api.open-notify.org/astros.json"""
@@ -69,8 +81,10 @@ class ISS:
 
 new = ISS()
 
+print(new.get_iss_pass_time())
 
-print(new.get_iss_coordinates())
+
+
 
 
 
