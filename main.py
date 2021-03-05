@@ -10,12 +10,14 @@ import urllib.request
 import json
 from datetime import datetime
 import tzlocal  # pip install tzlocal
+import haversine  # pip install haversine -> this is for distance calculations
 
 class ISS:
     def __init__(self):
         self.user_name = self.get_user_name()
         self.user_city = self.get_user_city()
         self.user_coordinates = self.get_user_coordinates()
+        self.iss_coordinates = self.get_iss_coordinates()
         self.distance_in_km = self.calculate_distance()
         self.three_passtimes = self.get_iss_pass_time()
         self.number_of_crew = self.get_number_of_crew()
@@ -46,6 +48,7 @@ class ISS:
     def get_user_coordinates(self):
         """Lat and Long for Vienna, Austria"""
         return '48.208', '16.373'
+        # Paris: (48.8534, 2.3488)
 
     def get_user_city(self):
         """User city name"""
@@ -85,7 +88,10 @@ class ISS:
         return json_data['number']
 
     def calculate_distance(self):
-        return 1000
+        loc1 = (float(self.user_coordinates[0]), float(self.user_coordinates[1]))
+        loc2 = (float(self.iss_coordinates[0]), float(self.iss_coordinates[1]))
+        distance = haversine.haversine(loc1, loc2)
+        return distance
 
 
 new = ISS()
@@ -96,6 +102,11 @@ new.convert_unix_time(1614899040)
 
 
 print(new.number_of_crew)
+print(new.iss_coordinates)
+print(new.user_coordinates)
+
+print(new.calculate_distance())
+print(new.distance_in_km)
 
 
 
