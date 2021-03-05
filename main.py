@@ -18,7 +18,7 @@ class ISS:
         self.user_coordinates = self.get_user_coordinates()
         self.distance_in_km = self.calculate_distance()
         self.three_passtimes = self.get_iss_pass_time()
-
+        self.number_of_crew = self.get_number_of_crew()
 
     def make_requests(self, source):
         openurl = urllib.request.urlopen(source)
@@ -45,7 +45,7 @@ class ISS:
 
     def get_user_coordinates(self):
         """Lat and Long for Vienna, Austria"""
-        return '48.210033', '16.363449'
+        return '48.208', '16.373'
 
     def get_user_city(self):
         """User city name"""
@@ -69,6 +69,10 @@ class ISS:
         risetime_and_duration3 = json_data['response'][2]
         return risetime_and_duration1, risetime_and_duration2, risetime_and_duration3
 
+    # compare to these:
+    # https://astroviewer.net/iss/de/beobachtung.php
+    # https://spotthestation.nasa.gov/sightings/view.cfm?country=Austria&region=None&city=Vienna
+
     def convert_unix_time(self, unix_timestamp):
         local_timezone = tzlocal.get_localzone()  # get pytz timezone
 
@@ -77,7 +81,8 @@ class ISS:
 
     def get_number_of_crew(self):
         """get info via: http://api.open-notify.org/astros.json"""
-        pass
+        json_data = self.make_requests('http://api.open-notify.org/astros.json')
+        return json_data['number']
 
     def calculate_distance(self):
         return 1000
@@ -88,11 +93,9 @@ new = ISS()
 print(new.get_iss_pass_time())
 
 new.convert_unix_time(1614899040)
-new.convert_unix_time(1614904746)
-new.convert_unix_time(1614910555)
-new.convert_unix_time(1614916384)
-new.convert_unix_time(1614922197)
 
+
+print(new.number_of_crew)
 
 
 
