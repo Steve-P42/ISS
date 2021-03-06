@@ -31,15 +31,20 @@ class ISS:
         else:
             print("Error receiving data:", openurl.getcode())
 
+
+#todo change decimal number
     def display_message(self):
         """define message template for requested data"""
-        message = f"""
+        message = \
+            f"""
         Welcome, {self.user_name}. Your distance from the ISS is {self.distance_in_km} km.
-        The next three times the space station will pass {self.user_city}:
-        
-        
+        The next three times the space station will pass {self.user_city}, and their respective
+        duration of visibility are displayed below:
+        Risetime: {self.three_passtimes[0][0]}  Duration: {self.three_passtimes[0][1]}
+        Risetime: {self.three_passtimes[1][0]}  Duration: {self.three_passtimes[1][1]}
+        Risetime: {self.three_passtimes[2][0]}  Duration: {self.three_passtimes[2][1]}
         """
-        pass
+        return message
 
     @staticmethod  # this method is static because 'self' is not used anywhere
     def get_user_name():
@@ -70,7 +75,15 @@ class ISS:
         risetime_and_duration1 = json_data['response'][0]
         risetime_and_duration2 = json_data['response'][1]
         risetime_and_duration3 = json_data['response'][2]
-        return risetime_and_duration1, risetime_and_duration2, risetime_and_duration3
+
+        r1 = self.convert_unix_time(risetime_and_duration1['risetime'])
+        r2 = self.convert_unix_time(risetime_and_duration2['risetime'])
+        r3 = self.convert_unix_time(risetime_and_duration3['risetime'])
+        d1 = f"{risetime_and_duration1['duration']//60}:{risetime_and_duration1['duration']%60} (m:s)"
+        d2 = f"{risetime_and_duration2['duration']//60}:{risetime_and_duration2['duration']%60} (m:s)"
+        d3 = f"{risetime_and_duration3['duration']//60}:{risetime_and_duration3['duration']%60} (m:s)"
+
+        return (r1, d1), (r2, d2), (r3, d3)
 
     # compare to these:
     # https://astroviewer.net/iss/de/beobachtung.php
@@ -80,7 +93,8 @@ class ISS:
         local_timezone = tzlocal.get_localzone()  # get pytz timezone
 
         local_time = datetime.fromtimestamp(unix_timestamp, local_timezone)
-        print(local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
+        #print(local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
+        return (local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
 
     def get_number_of_crew(self):
         """get info via: http://api.open-notify.org/astros.json"""
@@ -96,19 +110,21 @@ class ISS:
 
 new = ISS()
 
-print(new.get_iss_pass_time())
+# print(new.get_iss_pass_time())
+#
+# new.convert_unix_time(1614899040)
+#
+#
+# print(new.number_of_crew)
+# print(new.iss_coordinates)
+# print(new.user_coordinates)
+#
+# print(new.calculate_distance())
+# print(new.distance_in_km)
+#
+#print(new.three_passtimes)
 
-new.convert_unix_time(1614899040)
-
-
-print(new.number_of_crew)
-print(new.iss_coordinates)
-print(new.user_coordinates)
-
-print(new.calculate_distance())
-print(new.distance_in_km)
-
-
+print(new.display_message())
 
 
 
