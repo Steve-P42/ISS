@@ -11,6 +11,8 @@ import json
 from datetime import datetime
 import tzlocal  # pip install tzlocal
 import haversine  # pip install haversine -> this is for distance calculations
+from geopy.geocoders import Nominatim  # pip install geopy -> to get coordinates by location
+
 
 class ISS:
     def __init__(self):
@@ -31,8 +33,7 @@ class ISS:
         else:
             print("Error receiving data:", openurl.getcode())
 
-
-#todo change decimal number
+    # todo change decimal number
     def display_message(self):
         """define message template for requested data"""
         message = \
@@ -51,13 +52,26 @@ class ISS:
         return 'Sir Prise'
 
     def get_user_coordinates(self):
-        """Lat and Long for Vienna, Austria"""
-        return '48.208', '16.373'
-        # Paris: (48.8534, 2.3488)
+        """Lat and Long by Location"""
+
+        try:
+            geolocator = Nominatim(user_agent="ISS_project")
+            location = geolocator.geocode(self.user_city)
+
+            self.user_city = location.address
+            return location.latitude, location.longitude
+
+        # print(location.address)
+        # print((location.latitude, location.longitude))
+        # print(location.raw)
+
+        except:
+            return 48.8534, 2.3488  # Paris
 
     def get_user_city(self):
         """User city name"""
-        return 'Vienna, Austria'
+        location = input('What is your location?\n')
+        return location
 
     def get_iss_coordinates(self):
         """fetch position via: http://api.open-notify.org/iss-now.json"""
@@ -79,9 +93,9 @@ class ISS:
         r1 = self.convert_unix_time(risetime_and_duration1['risetime'])
         r2 = self.convert_unix_time(risetime_and_duration2['risetime'])
         r3 = self.convert_unix_time(risetime_and_duration3['risetime'])
-        d1 = f"{risetime_and_duration1['duration']//60}:{risetime_and_duration1['duration']%60} (m:s)"
-        d2 = f"{risetime_and_duration2['duration']//60}:{risetime_and_duration2['duration']%60} (m:s)"
-        d3 = f"{risetime_and_duration3['duration']//60}:{risetime_and_duration3['duration']%60} (m:s)"
+        d1 = f"{risetime_and_duration1['duration'] // 60}:{risetime_and_duration1['duration'] % 60} (m:s)"
+        d2 = f"{risetime_and_duration2['duration'] // 60}:{risetime_and_duration2['duration'] % 60} (m:s)"
+        d3 = f"{risetime_and_duration3['duration'] // 60}:{risetime_and_duration3['duration'] % 60} (m:s)"
 
         return (r1, d1), (r2, d2), (r3, d3)
 
@@ -93,7 +107,7 @@ class ISS:
         local_timezone = tzlocal.get_localzone()  # get pytz timezone
 
         local_time = datetime.fromtimestamp(unix_timestamp, local_timezone)
-        #print(local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
+        # print(local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
         return (local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
 
     def get_number_of_crew(self):
@@ -122,11 +136,9 @@ new = ISS()
 # print(new.calculate_distance())
 # print(new.distance_in_km)
 #
-#print(new.three_passtimes)
+# print(new.three_passtimes)
 
 print(new.display_message())
-
-
 
 # %%
 
