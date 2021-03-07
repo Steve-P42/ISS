@@ -15,9 +15,9 @@ from geopy.geocoders import Nominatim  # pip install geopy -> to get coordinates
 
 
 class ISS:
-    def __init__(self):
-        self.user_name = self.get_user_name()
-        self.user_city = self.get_user_city()
+    def __init__(self, name='Sir Prise', city='New York'):
+        self.user_name = name  # self.get_user_name()
+        self.user_city = city  # self.get_user_city()
         self.user_coordinates = self.get_user_coordinates()
         self.iss_coordinates = self.get_iss_coordinates()
         self.distance_in_km = self.calculate_distance()
@@ -33,12 +33,11 @@ class ISS:
         else:
             print("Error receiving data:", openurl.getcode())
 
-    # todo change decimal number
     def display_message(self):
         """define message template for requested data"""
         message = \
             f"""
-        Welcome, {self.user_name}. Your distance from the ISS is {self.distance_in_km} km.
+        Welcome, {self.user_name}. Your distance from the ISS is {round(self.distance_in_km, 2)} km.
         The next three times the space station will pass {self.user_city}, and their respective
         duration of visibility are displayed below:
         Risetime: {self.three_passtimes[0][0]}  Duration: {self.three_passtimes[0][1]}
@@ -47,9 +46,9 @@ class ISS:
         """
         return message
 
-    @staticmethod  # this method is static because 'self' is not used anywhere
-    def get_user_name():
-        return 'Sir Prise'
+    # @staticmethod  # this method is static because 'self' is not used anywhere
+    # def get_user_name():
+    #     return 'Sir Prise'
 
     def get_user_coordinates(self):
         """Lat and Long by Location"""
@@ -68,10 +67,10 @@ class ISS:
         except:
             return 48.8534, 2.3488  # Paris
 
-    def get_user_city(self):
-        """User city name"""
-        location = input('What is your location?\n')
-        return location
+    # def get_user_city(self):
+    #     """User city name"""
+    #     location = input('What is your location?\n')
+    #     return location
 
     def get_iss_coordinates(self):
         """fetch position via: http://api.open-notify.org/iss-now.json"""
@@ -122,7 +121,7 @@ class ISS:
         return distance
 
 
-new = ISS()
+new = ISS('Mozart', 'Zürich')
 
 # print(new.get_iss_pass_time())
 #
