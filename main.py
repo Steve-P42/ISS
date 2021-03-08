@@ -38,13 +38,17 @@ class ISS:
         message = \
             f"""
         Welcome, {self.user_name}. Your distance from the ISS is {round(self.distance_in_km, 2)} km.
-        The next three times the space station will pass {self.user_city}, and their respective
-        duration of visibility are displayed below:
+        Your location is: {self.user_city}
+        
+        The next times the station is visible are:
         Risetime: {self.three_passtimes[0][0]}  Duration: {self.three_passtimes[0][1]}
         Risetime: {self.three_passtimes[1][0]}  Duration: {self.three_passtimes[1][1]}
         Risetime: {self.three_passtimes[2][0]}  Duration: {self.three_passtimes[2][1]}
+        
+        Currently, there are {self.number_of_crew} astronauts on the ISS.
         """
         return message
+
 
     # @staticmethod  # this method is static because 'self' is not used anywhere
     # def get_user_name():
@@ -121,7 +125,7 @@ class ISS:
         return distance
 
 
-new = ISS('Mozart', 'Zürich')
+new = ISS('Jason Bourne', 'Zurich')
 
 # print(new.get_iss_pass_time())
 #
