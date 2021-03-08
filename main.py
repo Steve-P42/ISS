@@ -13,6 +13,7 @@ import tzlocal  # pip install tzlocal
 import haversine  # pip install haversine -> this is for distance calculations
 from geopy.geocoders import Nominatim  # pip install geopy -> to get coordinates by location
 
+
 # todo use asyncio to make the requests aat the same time
 class ISS:
     def __init__(self, name='Sir Prise', city='New York'):
@@ -51,7 +52,6 @@ class ISS:
 
     def get_user_coordinates(self):
         """Lat and Long by Location"""
-
         try:
             geolocator = Nominatim(user_agent="ISS_project")
             location = geolocator.geocode(self.user_city)
@@ -124,20 +124,9 @@ class ISS:
         return distance
 
 
+# %% class is created with the username and user location as inputs
+# both in string format:
+
+
 new = ISS('Jason Bourne', 'London')
-
 new.display_message()
-
-# %%
-
-# %%
-
-# %%
-
-# %%
-
-# %%
-
-# %%
-
-# %%
