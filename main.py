@@ -13,7 +13,7 @@ import tzlocal  # pip install tzlocal
 import haversine  # pip install haversine -> this is for distance calculations
 from geopy.geocoders import Nominatim  # pip install geopy -> to get coordinates by location
 
-
+# todo use asyncio to make the requests aat the same time
 class ISS:
     def __init__(self, name='Sir Prise', city='New York'):
         self.user_name = name  # self.get_user_name()
@@ -47,12 +47,7 @@ class ISS:
         
         Currently, there are {self.number_of_crew} astronauts on the ISS.
         """
-        return message
-
-
-    # @staticmethod  # this method is static because 'self' is not used anywhere
-    # def get_user_name():
-    #     return 'Sir Prise'
+        print(message)
 
     def get_user_coordinates(self):
         """Lat and Long by Location"""
@@ -68,7 +63,10 @@ class ISS:
         # print((location.latitude, location.longitude))
         # print(location.raw)
 
-        except:
+        except BaseException as e:
+            print('Error message:', e)
+            print('Location not found, used Paris as location instead.')
+            self.user_city = 'Paris'
             return 48.8534, 2.3488  # Paris
 
     # def get_user_city(self):
@@ -102,6 +100,7 @@ class ISS:
 
         return (r1, d1), (r2, d2), (r3, d3)
 
+    # todo okay, something is off with the times^^, fix that
     # compare to these:
     # https://astroviewer.net/iss/de/beobachtung.php
     # https://spotthestation.nasa.gov/sightings/view.cfm?country=Austria&region=None&city=Vienna
@@ -125,23 +124,9 @@ class ISS:
         return distance
 
 
-new = ISS('Jason Bourne', 'Zurich')
+new = ISS('Jason Bourne', 'London')
 
-# print(new.get_iss_pass_time())
-#
-# new.convert_unix_time(1614899040)
-#
-#
-# print(new.number_of_crew)
-# print(new.iss_coordinates)
-# print(new.user_coordinates)
-#
-# print(new.calculate_distance())
-# print(new.distance_in_km)
-#
-# print(new.three_passtimes)
-
-print(new.display_message())
+new.display_message()
 
 # %%
 
