@@ -112,7 +112,7 @@ class ISS:
 
         local_time = datetime.fromtimestamp(unix_timestamp, local_timezone)
         # print(local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
-        return (local_time.strftime("%d.%m.%Y %H:%M:%S %z (%Z)"))
+        return (local_time.strftime("%d.%m.%Y %H:%M:%S")# %z (%Z)"))
 
     def get_number_of_crew(self):
         """get info via: http://api.open-notify.org/astros.json"""
