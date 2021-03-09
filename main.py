@@ -24,6 +24,7 @@ class ISS:
         self.distance_in_km = self.calculate_distance()
         self.three_passtimes = self.get_iss_pass_time()
         self.number_of_crew = self.get_number_of_crew()
+        self.crew_names = self.get_crew_names()
 
     def make_requests(self, source):
         openurl = urllib.request.urlopen(source)
@@ -47,6 +48,7 @@ class ISS:
         Risetime: {self.three_passtimes[2][0]}  Duration: {self.three_passtimes[2][1]}
         
         Currently, there are {self.number_of_crew} astronauts on the ISS.
+        Their names are: {self.crew_names}.
         """
         print(message)
 
@@ -117,6 +119,19 @@ class ISS:
         json_data = self.make_requests('http://api.open-notify.org/astros.json')
         return json_data['number']
 
+    def get_crew_names(self):
+        """get info via: http://api.open-notify.org/astros.json"""
+        json_data = self.make_requests('http://api.open-notify.org/astros.json')
+        crew_list = json_data['people']
+        cr = []
+
+        for i in crew_list:
+            cr.append([i][0]["name"])
+        names = ""
+        for i in cr:
+            names += i + ", "
+        return names.rstrip().rstrip(',')
+
     def calculate_distance(self):
         loc1 = (float(self.user_coordinates[0]), float(self.user_coordinates[1]))
         loc2 = (float(self.iss_coordinates[0]), float(self.iss_coordinates[1]))
@@ -130,3 +145,6 @@ class ISS:
 
 new = ISS('Jason Bourne', 'London')
 new.display_message()
+
+
+#%%
