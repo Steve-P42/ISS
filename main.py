@@ -148,3 +148,18 @@ new.display_message()
 
 
 #%%
+from geopy.geocoders import Nominatim
+geolocator = Nominatim(user_agent="ISS_project")
+location = geolocator.geocode('vienna')
+print(location.raw)
+
+#todo use following resources to add timezone adaptation to the timestamps...
+#%% pip install timezonefinder   -> https://github.com/jannikmi/timezonefinder
+from timezonefinder import TimezoneFinder
+
+tf = TimezoneFinder()
+latitude, longitude = 48.8534, 2.3488
+tf.timezone_at(lng=longitude, lat=latitude)
+
+
+# ---> https://docs.python.org/3/library/zoneinfo.html
