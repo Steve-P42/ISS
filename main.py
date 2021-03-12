@@ -3,7 +3,7 @@
 # Author:           Steve-P42
 # Description:      ISS - Information Request Interface
 # Creation date:    2021-02-27 16:07:45
-# Status:           in development
+# Status:           done
 # ----------------------------------------------------------------------------
 # %%
 import urllib.request
@@ -59,7 +59,6 @@ class ISS:
             location = geolocator.geocode(self.user_city)
 
             self.user_city = location.address
-            print(location.latitude, location.longitude)
             return location.latitude, location.longitude
 
         except BaseException as e:
@@ -101,7 +100,6 @@ class ISS:
         return (r1, d1), (r2, d2), (r3, d3), (r4, d4), (r5, d5)
 
     def convert_unix_time(self, unix_timestamp):
-
         return datetime.fromtimestamp(unix_timestamp).strftime("%d.%m.%Y %H:%M:%S")
 
     def get_number_of_crew(self):
@@ -133,7 +131,7 @@ class ISS:
 # both in string format:
 
 
-new = ISS('Jason Bourne', 'Vienna')
+new = ISS('Jason Bourne', 'Zurich')
 new.display_message()
 
 #%%
